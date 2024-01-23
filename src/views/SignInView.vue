@@ -3,6 +3,7 @@ import { reactive } from 'vue';
 
 import { searchLocation } from '@/services/location';
 import SignInForm, { SingInData } from '@/components/SignInForm.vue';
+import CookieNotification from '@/components/CookieNotification.vue';
 import { SignInResponse, signIn } from '@/services/auth';
 import { isNullish } from '@/utils/type-checking';
 
@@ -107,6 +108,7 @@ function onSignIn(data: SingInData): void {
     >
       <p>{{ state.message }}</p>
     </div>
+    <CookieNotification v-if="true"/>
   </div>
 </template>
 
