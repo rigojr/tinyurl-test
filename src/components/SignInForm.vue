@@ -126,6 +126,15 @@ function onSubmit(): void {
   cleanUpForm();
   cleanUpError();
 }
+
+/**
+ * Occurs when a suggestions has been clicked.
+ *
+ * @param suggestion The clicked suggestion.
+ */
+function onSuggestionClicked(suggestion: string): void {
+  state.location = suggestion;
+}
 </script>
 
 <template>
@@ -179,7 +188,7 @@ function onSubmit(): void {
         type="text"
         autocomplete="off"
         required
-        v-model="state.password"
+        v-model="state.location"
       />
       <ul
         v-if="isSuggestionsVisible()"
@@ -188,6 +197,7 @@ function onSubmit(): void {
         <li
           v-for="suggestion in props.suggestions"
           class="sign-in-form__suggest-location"
+          @click="onSuggestionClicked(suggestion)"
         >
           {{ suggestion }}
         </li>
