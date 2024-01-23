@@ -39,7 +39,7 @@ defineProps<Props>();
   </nav>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .nav-header {
   display: flex;
   justify-content: space-between;

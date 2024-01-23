@@ -5,7 +5,7 @@ import { ComputedRef, computed, nextTick, reactive } from 'vue';
 /**
  * The sign in data structure.
  */
-type SingInData = {
+export type SingInData = {
   name: string;
   password: string;
   location: string;
@@ -148,6 +148,8 @@ function onSuggestionClicked(suggestion: string): void {
   state.isDropdownOpen = false;
 }
 
+// FIXME: close dropdown could be improve.
+
 /**
  * Occurs when location input has being changed.
  */
@@ -253,7 +255,7 @@ function onInputLocation(): void {
   </form>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .sign-in-form {
   $max-width-form: 20rem;
 
