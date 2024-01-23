@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
+import _ from 'lodash';
+import { ComputedRef, computed, reactive } from 'vue';
 
 /**
  * The sign in data structure.
@@ -26,6 +27,7 @@ type State = {
   location: string;
   isError: boolean;
   message?: string;
+  isLocationFocused: boolean;
 }
 
 /**
@@ -33,6 +35,7 @@ type State = {
  */
 interface Events {
   (e: 'sign-in', value: SingInData): void;
+  (e: 'search', value: string): void;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -45,8 +48,17 @@ const state = reactive<State>({
   'password': '',
   'location': '',
   'isError': false,
-  'message': undefined
+  'message': undefined,
+  'isLocationFocused': false
 });
+
+const searchLocation = _.debounce(() => {
+  if (state.location === '') {
+    return;
+  }
+
+  emits('search', state.location);
+}, 500);
 
 /**
  * Indicates whether the name is valid or not.
@@ -76,9 +88,7 @@ function isMessageVisible(): boolean {
 /**
  * Indicates whether suggestions are visible or not.
  */
-function isSuggestionsVisible(): boolean {
-  return props.suggestions.length > 0;
-}
+const isSuggestionsVisible = computed(() => props.suggestions.length > 0 && state.isLocationFocused);
 
 /**
  * Cleans up the error-related properties.
@@ -128,12 +138,19 @@ function onSubmit(): void {
 }
 
 /**
- * Occurs when a suggestions has been clicked.
+ * Occurs when a suggestions has being clicked.
  *
  * @param suggestion The clicked suggestion.
  */
 function onSuggestionClicked(suggestion: string): void {
   state.location = suggestion;
+}
+
+/**
+ * Occurs when location input has being changed.
+ */
+function onInputLocation(): void {
+  searchLocation();
 }
 </script>
 
@@ -189,9 +206,12 @@ function onSuggestionClicked(suggestion: string): void {
         autocomplete="off"
         required
         v-model="state.location"
+        @input="onInputLocation()"
+        @focus="state.isLocationFocused = true"
+        @blur="state.isLocationFocused = false"
       />
       <ul
-        v-if="isSuggestionsVisible()"
+        v-if="isSuggestionsVisible"
         class="sign-in-form__suggests-location"
       >
         <li

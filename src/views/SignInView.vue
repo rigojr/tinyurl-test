@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive } from 'vue';
+import { reactive } from 'vue';
 
 import { searchLocation } from '@/services/location';
 import SignInForm from '@/components/SignInForm.vue';
@@ -8,33 +8,45 @@ import SignInForm from '@/components/SignInForm.vue';
  * The private component properties.
  */
 type State = {
+  query: string;
   suggestions: string[];
+  isQueryLoading: boolean;
 }
 
 const state = reactive<State>({
-  'suggestions': [
-    'Test 1',
-    'Test 2',
-    'Test 3',
-    'Test 4',
-    'Test 1',
-    'Test 2',
-    'Test 3',
-    'Test 1',
-    'Test 2',
-    'Test 3',
-  ]
+  'suggestions': [],
+  'query': '',
+  'isQueryLoading': false
 });
 
-onMounted(() => {
-  searchLocation('london')
+/**
+ * Occurs when search event has occurred.
+ *
+ * @param query The search query.
+ */
+function onSearch(query: string): void {
+  if (state.isQueryLoading) {
+    return;
+  }
+
+  searchLocation(query)
     .then((suggestions) => {
-      console.log(suggestions);
+      state.suggestions = suggestions;
     })
-    .catch((err) => console.error(err));
-});
+    .catch((_err: unknown) => {
+      // TODO: handle error.
+
+      state.suggestions = [];
+    })
+    .finally(() => {
+      state.isQueryLoading = false;
+    });
+}
 </script>
 
 <template>
-  <SignInForm :suggestions="state.suggestions"/>
+  <SignInForm
+    :suggestions="state.suggestions"
+    @search="onSearch"
+  />
 </template>
