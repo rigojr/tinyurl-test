@@ -1,8 +1,26 @@
+<script setup lang="ts">
+import { reactive } from 'vue';
+import NavHeader from '@/components/NavHeader.vue';
+
+/**
+ * The component private properties.
+ */
+type State = {
+  logo: string; // TODO: should simulated
+}
+
+const state = reactive<State>({
+  'logo': getLogo()
+});
+
+function getLogo(): string { // TODO: here simulate the logo request.
+  return require('@/assets/logo.png');
+}
+
+</script>
+
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
+  <NavHeader :logo="state.logo"/>
   <router-view/>
 </template>
 
