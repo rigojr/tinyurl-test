@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import _ from 'lodash';
-import { ComputedRef, computed, reactive } from 'vue';
+import { ComputedRef, computed, nextTick, reactive } from 'vue';
 
 /**
  * The sign in data structure.
@@ -28,7 +28,7 @@ type State = {
   location: string;
   isError: boolean;
   message?: string;
-  isLocationFocused: boolean;
+  isDropdownOpen: boolean;
 }
 
 /**
@@ -50,7 +50,7 @@ const state = reactive<State>({
   'location': '',
   'isError': false,
   'message': undefined,
-  'isLocationFocused': false
+  'isDropdownOpen': false
 });
 
 const searchLocation = _.debounce(() => {
@@ -89,7 +89,7 @@ function isMessageVisible(): boolean {
 /**
  * Indicates whether suggestions are visible or not.
  */
-const isSuggestionsVisible = computed(() => props.suggestions.length > 0 && state.isLocationFocused);
+const isSuggestionsVisible = computed(() => props.suggestions.length > 0 && state.isDropdownOpen);
 
 /**
  * Cleans up the error-related properties.
@@ -145,6 +145,7 @@ function onSubmit(): void {
  */
 function onSuggestionClicked(suggestion: string): void {
   state.location = suggestion;
+  state.isDropdownOpen = false;
 }
 
 /**
@@ -214,13 +215,18 @@ function onInputLocation(): void {
         required
         v-model="state.location"
         @input="onInputLocation()"
-        @focus="state.isLocationFocused = true"
-        @blur="state.isLocationFocused = false"
+        @focus="state.isDropdownOpen = true"
       />
       <ul
         v-if="isSuggestionsVisible"
         class="sign-in-form__suggests-location"
       >
+        <li
+          class="sign-in-form__suggests-close-button"
+          @click="state.isDropdownOpen = false"
+        >
+          X
+        </li>
         <li
           v-for="suggestion in props.suggestions"
           class="sign-in-form__suggest-location"
@@ -294,6 +300,15 @@ function onInputLocation(): void {
     &:hover {
       background-color: rgba(0,0,0,.25);
     }
+  }
+
+  &__suggests-close-button {
+    position: absolute;
+    right: 1rem;
+
+    color: whitesmoke;
+    cursor: pointer;
+    font-weight: bold;
   }
 
   &__label {
