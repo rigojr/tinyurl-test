@@ -16,6 +16,7 @@ type SingInData = {
  */
 export interface Props {
   suggestions: string[];
+  isSearching: boolean;
 }
 
 /**
@@ -198,6 +199,12 @@ function onInputLocation(): void {
         for="location"
       >
         Location:
+        <img
+          v-if="props.isSearching"
+          class="sign-in-form__label-image"
+          src="@/assets/loading.svg"
+          alt="loading image"
+        />
       </label>
       <input
         id="location"
@@ -292,6 +299,10 @@ function onInputLocation(): void {
   &__label {
     text-align: left;
     font-weight: bold;
+  }
+
+  &__label-image {
+    width: 1rem;
   }
 
   &__button {

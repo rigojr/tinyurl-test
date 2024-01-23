@@ -29,6 +29,8 @@ function onSearch(query: string): void {
     return;
   }
 
+  state.isQueryLoading = true;
+
   searchLocation(query)
     .then((suggestions) => {
       state.suggestions = suggestions;
@@ -47,6 +49,7 @@ function onSearch(query: string): void {
 <template>
   <SignInForm
     :suggestions="state.suggestions"
+    :is-searching="state.isQueryLoading"
     @search="onSearch"
   />
 </template>
