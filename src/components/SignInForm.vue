@@ -11,6 +11,13 @@ type SingInData = {
 }
 
 /**
+ * The component public properties.
+ */
+export interface Props {
+  suggestions: string[];
+}
+
+/**
  * The private component properties.
  */
 type State = {
@@ -28,8 +35,11 @@ interface Events {
   (e: 'sign-in', value: SingInData): void;
 }
 
-const emits = defineEmits<Events>();
+const props = withDefaults(defineProps<Props>(), {
+  'suggestions': () => []
+});
 
+const emits = defineEmits<Events>();
 const state = reactive<State>({
   'name': '',
   'password': '',
@@ -54,6 +64,20 @@ function isPasswordValid(): boolean {
   const regEx = /^(?=.*[A-Z])(?=.*[!@#$%^&*]).*$/;
 
   return state.password.length >= 8 && regEx.test(state.password);
+}
+
+/**
+ * Indicates whether the message is visible or not.
+ */
+function isMessageVisible(): boolean {
+  return state.message !== undefined;
+}
+
+/**
+ * Indicates whether suggestions are visible or not.
+ */
+function isSuggestionsVisible(): boolean {
+  return props.suggestions.length > 0;
 }
 
 /**
@@ -102,13 +126,6 @@ function onSubmit(): void {
   cleanUpForm();
   cleanUpError();
 }
-
-/**
- * Indicates whether the message is visible or not.
- */
-function isMessageVisible(): boolean {
-  return state.message !== undefined;
-}
 </script>
 
 <template>
@@ -149,6 +166,33 @@ function isMessageVisible(): boolean {
         v-model="state.password"
       />
     </div>
+    <div class="sign-in-form__entry-wrapper sign-in-form__suggestion-wrapper">
+      <label
+        class="sign-in-form__label"
+        for="location"
+      >
+        Location:
+      </label>
+      <input
+        id="location"
+        class="sign-in-form__input-location"
+        type="text"
+        autocomplete="off"
+        required
+        v-model="state.password"
+      />
+      <ul
+        v-if="isSuggestionsVisible()"
+        class="sign-in-form__suggests-location"
+      >
+        <li
+          v-for="suggestion in props.suggestions"
+          class="sign-in-form__suggest-location"
+        >
+          {{ suggestion }}
+        </li>
+      </ul>
+    </div>
     <div class="sign-in-form__entry-wrapper">
       <input
         class="sign-in-form__button"
@@ -168,14 +212,51 @@ function isMessageVisible(): boolean {
 
 <style lang="scss">
 .sign-in-form {
+  $max-width-form: 20rem;
+
   width: 100%;
-  max-width: 20rem;
+  max-width: $max-width-form;
   margin: 5rem auto;
 
   &__entry-wrapper {
     display: flex;
     flex-direction: column;
     margin: 1rem 0rem;
+  }
+
+  &__suggestion-wrapper {
+    position: relative;
+  }
+
+  &__suggests-location {
+    position: absolute;
+    top: 3rem;
+    width: $max-width-form;
+    max-height: calc($max-width-form / 2);
+    margin: 0;
+    padding: .75rem;
+
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    text-align: left;
+    list-style: none;
+    border-radius: 1rem;
+
+    background-color: #434099;
+  }
+
+  &__suggest-location {
+    padding: .25rem;
+
+    color: whitesmoke;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: all ease-in-out .25s;
+
+    &:hover {
+      background-color: rgba(0,0,0,.25);
+    }
   }
 
   &__label {
