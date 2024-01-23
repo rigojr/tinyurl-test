@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
+
 import NavHeader from '@/components/NavHeader.vue';
+import CookieNotification from '@/components/CookieNotification.vue';
 
 /**
  * The component private properties.
@@ -22,6 +24,7 @@ function getLogo(): string { // TODO: here simulate the logo request.
 <template>
   <NavHeader :logo="state.logo"/>
   <router-view/>
+  <CookieNotification v-if="true"/>
 </template>
 
 <style lang="scss">
