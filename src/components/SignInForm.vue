@@ -57,11 +57,38 @@ function isPasswordValid(): boolean {
 }
 
 /**
+ * Cleans up the error-related properties.
+ */
+function cleanUpError(): void {
+  state.isError = false;
+  state.message = undefined;
+}
+
+/**
+ * Cleans up the form-related properties.
+ */
+function cleanUpForm(): void {
+  state.name = '';
+  state.password = '';
+  state.location = '';
+}
+
+/**
+ * Builds the form data.
+ */
+function buildFormData(): SingInData {
+  return {
+    'name': state.name,
+    'password': state.password,
+    'location': state.location
+  };
+}
+
+/**
  * Occurs when the sign in form has being submitted.
  */
 function onSubmit(): void {
-  state.isError = false;
-  state.message = undefined;
+  cleanUpError();
 
   if (!isNameValid() || !isPasswordValid()) {
     state.isError = true;
@@ -70,13 +97,10 @@ function onSubmit(): void {
     return;
   }
 
-  const formData: SingInData = {
-    'name': state.name,
-    'password': state.password,
-    'location': state.location
-  };
+  emits('sign-in', buildFormData());
 
-  emits('sign-in', formData);
+  cleanUpForm();
+  cleanUpError();
 }
 
 /**
