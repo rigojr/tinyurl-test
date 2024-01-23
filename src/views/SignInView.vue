@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { onMounted, reactive } from 'vue';
+
+import { searchLocation } from '@/services/location';
 import SignInForm from '@/components/SignInForm.vue';
-import { reactive } from 'vue';
 
 /**
  * The private component properties.
@@ -22,6 +24,14 @@ const state = reactive<State>({
     'Test 2',
     'Test 3',
   ]
+});
+
+onMounted(() => {
+  searchLocation('london')
+    .then((suggestions) => {
+      console.log(suggestions);
+    })
+    .catch((err) => console.error(err));
 });
 </script>
 
