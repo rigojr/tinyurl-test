@@ -48,9 +48,28 @@ function isNameValid(): boolean {
 }
 
 /**
+ * Indicates whether the password is valid or not.
+ */
+function isPasswordValid(): boolean {
+  const regEx = /^(?=.*[A-Z])(?=.*[!@#$%^&*]).*$/;
+
+  return state.password.length >= 8 && regEx.test(state.password);
+}
+
+/**
  * Occurs when the sign in form has being submitted.
  */
 function onSubmit(): void {
+  state.isError = false;
+  state.message = undefined;
+
+  if (!isNameValid() || !isPasswordValid()) {
+    state.isError = true;
+    state.message = 'Please verify name and password...';
+
+    return;
+  }
+
   const formData: SingInData = {
     'name': state.name,
     'password': state.password,
@@ -82,9 +101,11 @@ function isMessageVisible(): boolean {
       </label>
       <input
         id="name"
-        class="sign-in-form__input"
+        class="sign-in-form__input sign-in-form__input-name"
         type="text"
         autocomplete="off"
+        required
+        v-model="state.name"
       />
     </div>
     <div class="sign-in-form__entry-wrapper">
@@ -96,9 +117,12 @@ function isMessageVisible(): boolean {
       </label>
       <input
         id="password"
-        class="sign-in-form__input"
+        class="sign-in-form__input sign-in-form__input-password"
         type="password"
         autocomplete="off"
+        required
+        minlength="8"
+        v-model="state.password"
       />
     </div>
     <div class="sign-in-form__entry-wrapper">
@@ -110,8 +134,8 @@ function isMessageVisible(): boolean {
     </div>
     <div
       v-if="isMessageVisible()"
-      class="sing-in-form__message"
-      :class="{'sing-in-form__message--error': state.isError}"
+      class="sign-in-form__message"
+      :class="{'sign-in-form__message--error': state.isError}"
     >
       <p>{{ state.message }}</p>
     </div>
