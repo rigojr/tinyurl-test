@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed, reactive } from 'vue';
+import { computed, onMounted, reactive } from 'vue';
 import { useStore } from 'vuex';
 
 import NavHeader from '@/components/NavHeader.vue';
 import CookieNotification from '@/components/CookieNotification.vue';
 import { key } from '@/store/';
 import { isNullish } from '@/utils/type-checking';
+import { getBackendLogo } from './services/logo';
 
 /**
  * The component private properties.
@@ -16,14 +17,10 @@ type State = {
 
 const store = useStore(key);
 const state = reactive<State>({
-  'logo': getLogo()
+  'logo': require('@/assets/logo.png')
 });
 
 const isCookieNotificationVisible = computed(() => isNullish(store.state.session.isCookieAccepted));
-
-function getLogo(): string { // TODO: here simulate the logo request.
-  return require('@/assets/logo.png');
-}
 
 /**
  * Occurs when the cookie notification has being accepted.
@@ -38,6 +35,16 @@ function onAccepted(): void {
 function onRejected(): void {
   store.dispatch('updateCookieNotification', false);
 }
+
+onMounted(() => {
+  getBackendLogo()
+    .then((imgUrl) => {
+      state.logo = imgUrl;
+    })
+    .catch((_err) => {
+      // TODO: handle error.
+    })
+});
 </script>
 
 <template>
