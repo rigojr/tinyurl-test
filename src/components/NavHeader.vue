@@ -27,7 +27,7 @@ defineProps<Props>();
       </router-link>
       <a
         class="nav-header__nav-link"
-        href="/blog"
+        href="http://tinyurl.aeros.io/"
       >
         Blog
       </a>
