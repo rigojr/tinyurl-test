@@ -12,7 +12,7 @@ import { getBackendLogo } from './services/logo';
  * The component private properties.
  */
 type State = {
-  logo: string; // TODO: should simulated
+  logo: string;
 }
 
 const store = useStore(key);

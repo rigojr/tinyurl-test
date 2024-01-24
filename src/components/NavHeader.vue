@@ -4,6 +4,7 @@
  */
 interface Props {
   logo: string
+  // TODO: should received links as props
 }
 
 defineProps<Props>();
@@ -25,12 +26,12 @@ defineProps<Props>();
       >
         Sign In
       </router-link>
-      <a
+      <router-link
         class="nav-header__nav-link"
-        href="http://tinyurl.aeros.io/"
+        to="/articles"
       >
-        Blog
-      </a>
+        Articles
+      </router-link>
       <router-link
         class="nav-header__nav-link"
         to="/faq"
