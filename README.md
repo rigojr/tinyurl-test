@@ -34,6 +34,7 @@ yarn test:unit
 - The autocomplete and dropdown could be encapsulated into a different component, the `SignInForm` component is hosting a lot of responsibility.
 - There are some edge cases in which the dropdown should be closed that are not being attended, one of them is when the user clicks outside the dropdown, for it, I could add a global event listener with `click` and observe certain scenarios to properly close the dropdown.
 
+
 ### ARTICLES PAGE
 - Since the WordPress installation is outside, I honestly couldn't add it to the development environment that I'm using with Vue, those API endpoints (provided by WP) are outside the main domain and should be avoided for CORS Policies, for testing purposes I added a plugin that let me bypass that security policy.
 - I'm adding into `ArticleExcerpt` and `ArticleDetails` the `content` using the directive `v-html` since the API responded with valuable HTML data that could be added. That mechanism needs to be done with an HTML validation to avoid security vulnerabilities like script injections.
@@ -51,3 +52,6 @@ yarn test:unit
 - I could use Vuex better as I mentioned before, there are some improvement opportunities.
 - I could add simple unit tests for only two components: `SignInForm` and `CookieNotification`, there are more tests that can be done, for example, the services. I did not have enough time to properly add more coverage.
     - I used to work with TDD, or a smooth version, however, I couldn't do it calmly because of the time restriction.
+
+# More
+- Check demo videos [here](https://drive.google.com/drive/folders/1mIpNHo3wdyUnXxPEutZrbd8_fHax1Blo?usp=sharing).
