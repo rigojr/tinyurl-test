@@ -51,7 +51,7 @@ onMounted(() => {
   <div class="article-view">
     <p
       v-if="isNullish(article)"
-      class="article-view"
+      class="article-view__error-message"
     >
       Something went wrong, please try again later...
     </p>
@@ -61,3 +61,13 @@ onMounted(() => {
     />
   </div>
 </template>
+
+<style scoped lang="scss">
+.article-view {
+  margin: 2rem;
+
+  &__error-message {
+    color: red;
+  }
+}
+</style>
