@@ -25,6 +25,10 @@ export async function signIn(name: string, password: string): Promise<SignInResp
       'body': JSON.stringify({name, password}) // TODO: password should be handling according to security policies.
     });
 
+    if (!response.ok) {
+      throw new Error('Something went wrong, please try again later.');
+    }
+
     if (Math.round(Math.random()) === 1) { // TODO: for testing purpose
       return SignInResponse.SUCCESSFUL;
     }

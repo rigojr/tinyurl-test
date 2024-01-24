@@ -60,6 +60,9 @@ function buildLocation(data: unknown): string[] {
  *
  * @param query         The search query
  * @param maximumCounts The optional maximum result counts.
+ *
+ * @throws {Error} If response is not ok.
+ * @throws {Error} If something unexpected went wrong in the API call.
  */
 export async function searchLocation(query: string, maximumCounts = 10): Promise<string[]> {
   const url = buildUrl(query, maximumCounts);
