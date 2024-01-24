@@ -88,7 +88,6 @@ function getArticles({ commit }: ActionContext<State, State>): void {
     .then((articles) => commit('setArticles', articles))
     .catch((_err) => {
       // TODO: handle error.
-      console.log(_err);
       commit('setArticlesError', 'Something went wrong.');
     })
     .finally(() => commit('setArticlesLoading', false));
