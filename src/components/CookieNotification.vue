@@ -13,20 +13,18 @@ const emits = defineEmits<Events>();
 <template>
   <div class="cookie-notification">
     <button
-      class="cookie-notification__close-button"
+      class="cookie-notification__button cookie-notification__close-button"
       @click="emits('rejected')"
     >
       X
     </button>
     <p> We use cookies to personalize and improve your experience on our site and to serve you with relevant advertising. Visit our privacy policy for more information on our data collection practices.</p>
-    <div class="cookie-notification__button-container">
-      <button
-        class="cookie-notification__accept-button"
-        @click="emits('accepted')"
-      >
-        Accept
-      </button>
-    </div>
+    <button
+      class="cookie-notification__button cookie-notification__accept-button"
+      @click="emits('accepted')"
+    >
+      Accept
+    </button>
   </div>
 </template>
 
@@ -36,14 +34,19 @@ const emits = defineEmits<Events>();
   bottom: 0;
   left: 0;
   padding: .5rem;
+  width: 100%;
 
   background-color: whitesmoke;
 
+  &__button {
+    border: none;
+    cursor: pointer;
+  }
+
   &__close-button {
     position: absolute;
-    right: .5rem;
+    right: 1rem;
 
-    border: none;
     background-color: transparent;
   }
 
