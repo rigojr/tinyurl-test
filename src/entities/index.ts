@@ -21,9 +21,9 @@ export type ArticleContent = {
 }
 
 /**
- * The article data entity.
+ * The article API response data entity.
  */
-export type Article = {
+export type ArticleApiResponse = {
   'id': number,
   'date': string,
   'status': ArticleStatus,
@@ -31,6 +31,19 @@ export type Article = {
   'link': string,
   'content': ArticleContent,
   'excerpt': ArticleContent
+}
+
+/**
+ * The article data entity.
+ */
+export type Article = {
+  'id': string,
+  'date': string,
+  'status': ArticleStatus,
+  'title': string,
+  'link': string,
+  'content': string,
+  'excerpt': string
 }
 
 /**
@@ -44,11 +57,11 @@ export function isArticleContent(value: unknown): value is ArticleContent {
 }
 
 /**
- * Indicates whether the value is Article or not.
+ * Indicates whether the value is Article API response or not.
  *
  * @param value The unknown value.
  */
-export function isArticle(value: unknown): value is Article {
+export function isArticlesApiResponse(value: unknown): value is ArticleApiResponse {
   return isObject(value)
     && isNumber(value.id)
     && isString(value.date)

@@ -38,19 +38,20 @@ function getPublishedArticles(articles: Article[]): Article[] {
  * @param article The article entity.
  */
 function buildArticleExcerptProps(article: Article): ArticleExcerptProps {
-  // TODO: should not be doing here, find other place.
   return {
     'id': article.id,
     'date': article.date,
-    'title': article.title.rendered,
-    'content': article.excerpt.rendered,
+    'title': article.title,
+    'content': article.excerpt
   };
 }
 
 /**
  * Occurs when an article has being clicked.
+ *
+ * @param id The article id.
  */
-function onArticleClick(id: number): void {
+function onArticleClick(id: string): void {
   router.push({
     'name': 'article',
     'params': { id }

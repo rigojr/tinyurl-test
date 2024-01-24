@@ -7,7 +7,7 @@ import { getFormattedDate } from '@/utils/datetime';
  * The component public properties.
  */
 export interface Props {
-  'id': number;
+  'id': string;
   'date': string;
   'title': string;
   'content': string;
