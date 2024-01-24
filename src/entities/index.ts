@@ -29,7 +29,8 @@ export type Article = {
   'status': ArticleStatus,
   'title': ArticleContent,
   'link': string,
-  'content': ArticleContent
+  'content': ArticleContent,
+  'excerpt': ArticleContent
 }
 
 /**
@@ -54,5 +55,6 @@ export function isArticle(value: unknown): value is Article {
     && isEnumValue(value.status, ArticleStatus)
     && isArticleContent(value.title)
     && isString(value.link)
-    && isArticleContent(value.content);
+    && isArticleContent(value.content)
+    && isArticleContent(value.excerpt);
 }

@@ -42,9 +42,9 @@ function buildArticleExcerptProps(article: Article): ArticleExcerptProps {
     'date': article.date,
     'status': article.status,
     'title': article.title.rendered,
-    'content': article.content.rendered,
+    'content': article.excerpt.rendered,
     'externalLink': article.link
-  }
+  };
 }
 
 onMounted(() => {
@@ -70,8 +70,16 @@ onMounted(() => {
     >
       <ArticleExcerpt
         v-for="article in articles"
+        :key="article.id"
         v-bind="article"
       />
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.articles-view {
+  width: 50%;
+  margin: auto;
+}
+</style>
