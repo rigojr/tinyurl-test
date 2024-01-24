@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ArticleStatus } from '@/entities';
 import { computed } from 'vue';
+
+import { getFormattedDate } from '@/utils/datetime';
 
 /**
  * The component public properties.
@@ -8,34 +9,23 @@ import { computed } from 'vue';
 export interface Props {
   'id': number;
   'date': string;
-  'status': ArticleStatus;
   'title': string;
   'content': string;
-  'externalLink': string;
 }
 
 const props = defineProps<Props>();
 const formattedDate = computed(() => getFormattedDate(props.date));
-
-/**
- * Gets the formatted date.
- *
- * @param date The given unformatted date.
- */
-function getFormattedDate(date: string): string {
-  return new Date(date).toLocaleDateString('en-US');
-}
 </script>
 
 <template>
-  <div class="article-excerpt">
+  <article class="article-excerpt">
     <h2 class="article-excerpt__title">{{ props.title }}</h2>
     <!-- FIXME: content should be checked before be loaded as v-html security issue here -->
     <p class="article-excerpt__content" v-html="props.content"></p>
     <div class="article-excerpt__meta-data-collection">
       <p class="article-excerpt__meta-data">Published: {{ formattedDate }}</p>
     </div>
-  </div>
+  </article>
 </template>
 
 <style lang="scss" scoped>

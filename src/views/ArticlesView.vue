@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { ComputedRef, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import { Article, ArticleStatus } from '@/entities';
 import { key } from '@/store/';
 import ArticleExcerpt, { Props as ArticleExcerptProps } from '@/components/ArticleExcerpt.vue';
 
+const router = useRouter();
 const store = useStore(key);
 const isLoading = computed(() => store.state.session.isArticlesLoading); // TODO: Improve these computed declaration.
 const articles: ComputedRef<ArticleExcerptProps[]> = computed(() => getArticles(store.state.session.articles));
@@ -40,11 +42,19 @@ function buildArticleExcerptProps(article: Article): ArticleExcerptProps {
   return {
     'id': article.id,
     'date': article.date,
-    'status': article.status,
     'title': article.title.rendered,
     'content': article.excerpt.rendered,
-    'externalLink': article.link
   };
+}
+
+/**
+ * Occurs when an article has being clicked.
+ */
+function onArticleClick(id: number): void {
+  router.push({
+    'name': 'article',
+    'params': { id }
+  });
 }
 
 onMounted(() => {
@@ -72,6 +82,7 @@ onMounted(() => {
         v-for="article in articles"
         :key="article.id"
         v-bind="article"
+        @click="onArticleClick(article.id)"
       />
     </div>
   </div>
