@@ -29,6 +29,7 @@ yarn test:unit
 - Different store states should be created to answer for a unique responsibility, I'm using  `session` state to handle articles-related logic, which should be avoided. And more stores related to sign/authentication/authorization should be added.
 - Currently the `store/index.ts` is hosting all `mutations` and `actions` definitions, that could be handled in different files to improve readability. Also, the type definition should be improved.
 - The loading states could be improved using `Suspense` or maybe `AsyncComponents`, I opted to avoid that complexity for now.
+- Linter should be added to improve the developing experience and consistency.
 
 ### FORM PAGE
 - The autocomplete and dropdown could be encapsulated into a different component, the `SignInForm` component is hosting a lot of responsibility.
