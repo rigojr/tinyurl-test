@@ -37,7 +37,7 @@ const emits = defineEmits<Events>();
   left: 0;
   padding: .5rem;
 
-  background-color: rgba(0,0,0,.15);
+  background-color: whitesmoke;
 
   &__close-button {
     position: absolute;

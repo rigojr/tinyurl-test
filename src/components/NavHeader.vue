@@ -11,11 +11,13 @@ defineProps<Props>();
 
 <template>
   <nav class="nav-header">
-    <img
-      class="nav-header__logo"
-      :src="logo"
-      alt="This is a test logo"
-    />
+    <router-link to="/">
+      <img
+        class="nav-header__logo"
+        :src="logo"
+        alt="This is a test logo"
+      />
+    </router-link>
     <div class="nav-header__nav">
       <router-link
         class="nav-header__nav-link"
@@ -51,7 +53,7 @@ defineProps<Props>();
     max-width: 3rem;
   }
 
-  a {
+  .nav-header__nav-link {
     padding: .75rem;
     margin: 0rem 1rem;
 
